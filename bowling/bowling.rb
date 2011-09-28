@@ -7,24 +7,33 @@ class Bowling
   class TooManyPins   < StandardError; end
   
   def initialize(throws)
-    factory      = FrameFactory.new
-    split_throws = throws.split(/(X|..)/, 10) - ['']
-    @frames      = split_throws.reverse.map { |frame| factory.make frame }.reverse
+    @frames = BowlingParser.parse throws
     
-    is_valid?
+    check_validity
   end
   
   def score
     @frames.inject(0) { |sum, frame| sum + frame.score }
   end
   
-  def is_valid?
+  def check_validity
     raise GameTooShort, "#{ @frames.length } frames is too few"  if @frames.length < 10
     raise GameTooLong,  "#{ @frames.length } frames is too many" if @frames.length > 10
     
-    @frames.each { |frame| frame.is_valid? }
+    @frames.each { |frame| frame.check_validity }
   end
 
+end
+
+class BowlingParser
+
+  def self.parse(throws)
+    factory      = FrameFactory.new
+    split_throws = throws.split(/(X|..)/, 10) - ['']
+    
+    split_throws.reverse.map { |frame| factory.make frame }.reverse
+  end
+  
 end
 
 class FrameFactory
@@ -72,9 +81,9 @@ class Frame
   
   # Validity
   
-  def is_valid?
+  def check_validity
     raise Bowling::SpareTooEarly if @throws[0] == '/'
-    raise Bowling::ThrowsTooLate if @throws[1] == 'X'
+    raise Bowling::StrikeTooLate if @throws[1] == 'X'
     raise Bowling::TooManyPins   if @throws[0].to_i + @throws[1].to_i >= 10
   end
 
@@ -116,8 +125,8 @@ class LastFrame < Frame
     throw_to_i @throws[2], @throws[1]
   end
   
-  def is_valid?
-    expected_throws = (@throws & %w(/ X)).empty? ? 2 : 3
+  def check_validity
+    expected_throws = (@throws[0..1] & %w(/ X)).empty? ? 2 : 3
 
     raise Bowling::GameTooShort, "Expected #{ expected_throws } throws in final frame, found #{ @throws.length }"  if @throws.length < expected_throws
     raise Bowling::GameTooLong,  "Expected #{ expected_throws } throws in final frame, found #{ @throws.length }"  if @throws.length > expected_throws
