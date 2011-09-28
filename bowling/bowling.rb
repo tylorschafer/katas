@@ -7,7 +7,7 @@ class Bowling
   class TooManyPins   < StandardError; end
   
   def initialize(throws)
-    @frames = BowlingParser.parse throws
+    @frames = BowlingParser.new(throws).frames
     
     check_validity
   end
@@ -27,18 +27,15 @@ end
 
 class BowlingParser
 
-  def self.parse(throws)
-    factory      = FrameFactory.new
+  attr_reader :frames
+  
+  def initialize(throws)
     split_throws = throws.split(/(X|..)/, 10) - ['']
     
-    split_throws.reverse.map { |frame| factory.make frame }.reverse
+    @frames = split_throws.reverse.map { |frame| make_frame frame }.reverse
   end
-  
-end
 
-class FrameFactory
-
-  def make(throws)
+  def make_frame(throws)
     klass = if @next_frame.nil?
       LastFrame
     elsif throws == 'X'
@@ -126,10 +123,13 @@ class LastFrame < Frame
   end
   
   def check_validity
-    expected_throws = (@throws[0..1] & %w(/ X)).empty? ? 2 : 3
+    frame = @throws.join
 
-    raise Bowling::GameTooShort, "Expected #{ expected_throws } throws in final frame, found #{ @throws.length }"  if @throws.length < expected_throws
-    raise Bowling::GameTooLong,  "Expected #{ expected_throws } throws in final frame, found #{ @throws.length }"  if @throws.length > expected_throws
+    raise Bowling::GameTooShort,  "Expected 3 throws in final frame, found #{ @throws.length }"  if frame =~ /^([X\/].|.[X\/])$/ || @throws.length < 2
+    raise Bowling::GameTooLong,   "Expected 2 throws in final frame, found #{ @throws.length }"  if frame =~ /[-1-9]{2}./ || frame =~ /..../
+    raise Bowling::SpareTooEarly, "Cannot throw a spare at the start of a frame in #{ frame }"   if frame =~ /[X\/]\// || frame =~ /^\//
+    raise Bowling::StrikeTooLate, "Cannot throw a strike inside a frame in #{ frame }"           if frame =~ /[-1-9]X/
+    raise Bowling::TooManyPins,   "Too many pins without a spare or strike in #{ frame }"        if frame =~ /X?[-1-9]{2}/ && (@throws[0].to_i + @throws[1].to_i + @throws[2].to_i) >= 10
   end
   
 end
