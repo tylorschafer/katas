@@ -32,7 +32,7 @@ class Ukulele
   
   def is_adjacent_fingering?(fingering)
     absolute_notes = (0...4).map { |i| @strings[i].note fingering[i] }
-    absolute_notes.max - absolute_notes.min <= 12
+    absolute_notes.max - absolute_notes.min == 12
   end
   
 end
@@ -81,5 +81,3 @@ class Combinations
   
 end
 
-u = Ukulele.new
-u.fingerings([0, 3, 6, 11]).sort.each { |f| puts f.inspect }
