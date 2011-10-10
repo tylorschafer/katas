@@ -25,12 +25,6 @@ class Bowling
 
 end
 
-##################
-#                #
-# Bowling Parser #
-#                #
-##################
-
 class BowlingParser
 
   attr_reader :frames
@@ -56,12 +50,6 @@ class BowlingParser
   end
   
 end
-
-#########
-#       #
-# Frame #
-#       #
-#########
 
 class Frame
 
@@ -108,12 +96,6 @@ class Frame
   
 end
 
-###############
-#             #
-# Spare Frame #
-#             #
-###############
-
 class SpareFrame < Frame
   
   def bonus
@@ -121,12 +103,6 @@ class SpareFrame < Frame
   end
   
 end
-
-################
-#              #
-# Strike Frame #
-#              #
-################
 
 class StrikeFrame < Frame
   
@@ -139,12 +115,6 @@ class StrikeFrame < Frame
   end
   
 end
-
-##############
-#            #
-# Last Frame #
-#            #
-##############
 
 class LastFrame < Frame
   
