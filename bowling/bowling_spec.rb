@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'bowling'
+require_relative 'bowling'
 
 class BowlingTest < Test::Unit::TestCase
 

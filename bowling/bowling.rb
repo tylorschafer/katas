@@ -144,10 +144,28 @@ class Bowling
   def initialize(throws)
     #print throws
     @throw = throws
-    throws.each_char do |x|
-      puts x
+    @frames = Array.new
+    set = String.new
+    throws.each_char do |roll|
+      #puts roll
+      set = set + roll
+      #puts set
+      if(set == 'X')
+        @frames.push(set)
+        set = String.new
+      elsif(set.size == 2)
+        @frames.push(set)
+        set = String.new
+      else
+        #@frames.push(set) 
+        #set = String.new
+      end
+      if(@frames.size == 11)
+        raise GameTooLong, 'Should not accept a game that is too long'
+      end
     end
-      
+    puts @frames.size
+    @frames.each { |frame| puts frame }
   end
   
   def score
