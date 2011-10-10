@@ -2,12 +2,13 @@ class TexasHoldEm
   
   def initialize(cards)
     @da_cards = cards
-    hearts = @da_cards.split(/H/)
-    #diamonds = @da_cards.scan(/[\dD][^\dH|C|S]*/)#.group_by(|a,b| puts a)
-    clubs = @da_cards.scan(/[^\d H|D|S]*/)
-    spades = @da_cards.split(/[S]/)
+    hearts = @da_cards.scan(/[\dH]+[^\dD|C|S]+/)
+    diamonds = @da_cards.scan(/[\dD]+[^\dH|C|S]+/)
+    clubs = @da_cards.scan(/[\dC]+[^\dH|D|S]+/)
+    spades = @da_cards.scan(/[\dS]+[^\dH|C|D]+/)
     #puts diamonds
     puts clubs
+    #puts spades
   end
   
   def best_hand
