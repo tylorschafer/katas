@@ -1,6 +1,7 @@
 class LookAndSay
   
   def initialize(string)
+   #test
     @the_string = string
     #check = string.scan(/[^0-9]/)
     #if check.size != 0 
