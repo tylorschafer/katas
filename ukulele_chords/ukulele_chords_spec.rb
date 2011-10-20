@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'ukulele_chords'
+require './ukulele_chords'
 
 class UkuleleChordsSpec < Test::Unit::TestCase
 
