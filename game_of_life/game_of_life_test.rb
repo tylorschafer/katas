@@ -1,5 +1,6 @@
 require 'test/unit'
 require './game_of_life'
+begin; require 'turn'; rescue LoadError; end
 
 class GameOfLifeTest < Test::Unit::TestCase
 
@@ -39,7 +40,7 @@ class GameOfLifeTest < Test::Unit::TestCase
     board = life.to_s
     
     life.next
-    
+
     assert_not_equal life.to_s, board
   end
   
