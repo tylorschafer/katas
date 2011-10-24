@@ -1,3 +1,5 @@
+require 'curses'
+
 class GameOfLife
 
   #####################
@@ -18,7 +20,7 @@ class GameOfLife
   def to_s
     output = ''
     @state.each do |row|
-      row.each { |cell| output += cell.to_s }
+      row.each { |cell| output += (cell == 1 ? '#' : '.') }
       output += "\n"
     end
     output
@@ -36,7 +38,25 @@ class GameOfLife
   end
 
   def period
-    # Implement me!
+    states = []
+    until index = states.index(@state)
+      states << @state
+      self.next
+    end
+    period = states.count - index
+  end
+
+  def animate
+    i = 0
+    while(i += 1)
+      Curses.clear
+      Curses.setpos(0, 0)
+      Curses.addstr self.to_s
+      Curses.addstr "#{i} generations"
+      Curses.refresh
+      self.next
+      sleep 1.5
+    end
   end
 
 private
@@ -111,4 +131,14 @@ public
     self
   end
   
+end
+
+if ARGV.any?
+  # animate the Twin Bees Shuttle pattern for fun
+  pattern = %w(.................##.......... ##...............#.#.......## ##.................#.......##
+               .................###......... ............................. .............................
+               ............................. .................###......... ##.................#.........
+               ##...............#.#......... .................##..........)
+  b = GameOfLife.empty(50, 50).copy_into(pattern, 10, 10)
+  b.animate
 end
