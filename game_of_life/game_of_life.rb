@@ -6,24 +6,43 @@ class GameOfLife
   #                   #
   #####################
 
-  def initialize(start_state)
-    # Implement me!
+  def initialize(grid)
+    @cells = []
+    
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |cell, column_index|
+        @cells << LifeCell.new(cell, row_index, column_index)
+      end
+    end
+    
+    @cells.each { |cell| cell.identify_neighbors @cells }
+  end
+  
+  def next
+    @cells.each { |cell| cell.calculate_next_state }
+    @cells.each { |cell| cell.update               }
+  end
+  
+  def period
+    states = { to_s => 0 }
+    self.next
+    generation = 1
+
+    until states[to_s]
+      states[to_s] = generation
+      self.next
+      generation += 1
+    end
+    
+    return generation - states[to_s]
   end
 
   def set(row, col)
-    # Implement me!
+    @cells.detect { |cell| cell.row == row && cell.column == col }.set_alive
   end
-
+  
   def to_s
-    # Implement me!
-  end
-
-  def next
-    # Implement me!
-  end
-
-  def period
-    # Implement me!
+    @cells.join
   end
 
   #############################
@@ -50,5 +69,67 @@ class GameOfLife
     end
     self
   end
+  
+end
+
+class LifeCell
+  
+  attr_accessor :row, :column
+  
+  def initialize(status, row, column)
+    set_alive if status == 1
+    @row = row
+    @column = column
+  end
+  
+  def identify_neighbors(cells)
+    @neighbors = cells.select { |cell| LifeCell.distance(self, cell) == 1 }
+  end
+  
+  def self.distance(cell1, cell2)
+    [ (cell1.row - cell2.row).abs, (cell1.column - cell2.column).abs ].max
+  end
+  
+  def living_neighbors
+    @neighbors.select { |cell| cell.is_alive? }.length
+  end
+  
+  def is_alive?
+    @current
+  end
+  
+  def set_alive
+    @current = true
+  end
+  
+  def calculate_next_state
+    strategy = is_alive? ? AliveStrategy : DeadStrategy
+    
+    @next = strategy.next_state(self)
+  end
+  
+  def update
+    @current = @next
+  end
+  
+  def to_s
+    is_alive? ? '#' : '.' 
+  end
+  
+end
+
+class AliveStrategy
+  
+  def self.next_state(cell)
+    [2, 3].include? cell.living_neighbors
+  end
+  
+end
+
+class DeadStrategy
+
+  def self.next_state(cell)
+    cell.living_neighbors == 3
+  end  
   
 end
