@@ -1,3 +1,4 @@
+
 class GameOfLife
 
   #####################
@@ -7,19 +8,19 @@ class GameOfLife
   #####################
 
   def initialize(start_state)
-    # Implement me!
+    @the_board = start_state
   end
 
   def set(row, col)
-    # Implement me!
+    @the_board[row,col] = 1
   end
 
   def to_s
-    # Implement me!
+    @the_board.map{|a| a.inspect}.join("")
   end
 
   def next
-    # Implement me!
+    @the_board.each_with_index {|value, index| puts "#{value} => #{index}"}
   end
 
   def period
@@ -50,5 +51,20 @@ class GameOfLife
     end
     self
   end
-  
 end
+
+SINGLE_CELLS = {
+  [0, 1] => %w(.#. ... ...),
+  [1, 1] => %w(... .#. ...),
+  [2, 0] => %w(... ... #..)
+}
+  SINGLE_CELLS.each do |(row, col), after|
+    via_set = GameOfLife.empty(3, 3)
+    puts "row: " + row.inspect
+    puts "col: " + col.inspect
+    puts 
+    #via_set.set(row, col)
+    #via_set.next
+    #puts via_set.to_s
+    
+  end
