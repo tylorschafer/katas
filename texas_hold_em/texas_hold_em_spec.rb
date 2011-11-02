@@ -58,7 +58,7 @@ class TexasHoldEmTest < Test::Unit::TestCase
     cards = "KD 9H 10D 9D JD 6S QD"
     assert_equal "Straight Flush (K high)", TexasHoldEm.new(cards).best_hand
   end
-=end
+
   ##################
   #                #
   # Four of a Kind #
@@ -69,7 +69,7 @@ class TexasHoldEmTest < Test::Unit::TestCase
     cards = "4C 7D 7H 3S 7C 10H 7S"
     assert_equal "Four of a Kind (7 high)", TexasHoldEm.new(cards).best_hand
   end
-=begin  
+ 
   ##############
   #            #
   # Full House #
@@ -80,7 +80,7 @@ class TexasHoldEmTest < Test::Unit::TestCase
     cards = "AH AC 2D 2H 2C 5S 8S"
     assert_equal "Full House (2 high)", TexasHoldEm.new(cards).best_hand
   end
-  
+=end 
   #########
   #       #
   # Flush #
@@ -91,7 +91,7 @@ class TexasHoldEmTest < Test::Unit::TestCase
     cards = "2D 4D 6D 7C 8C 9D 10D"
     assert_equal "Flush (10 high)", TexasHoldEm.new(cards).best_hand
   end
-  
+=begin  
   ############
   #          #
   # Straight #
@@ -102,7 +102,7 @@ class TexasHoldEmTest < Test::Unit::TestCase
     cards = "2C 4D AH 6S 5D 3C 10S"
     assert_equal "Straight (6 high)", TexasHoldEm.new(cards).best_hand
   end
-=end   
+=end  
   ###################
   #                 #
   # Three of a Kind #
@@ -135,13 +135,13 @@ class TexasHoldEmTest < Test::Unit::TestCase
     cards = "4C 7D 2H 3S JD 10H 7S"
     assert_equal "Two of a Kind (7 high)", TexasHoldEm.new(cards).best_hand
   end
-=begin
+
   #############
   #           #
   # High Card #
   #           #
   #############
-  
+=begin  
   def test_pick_high_card
     cards = "4C 7D 2H 3S KD 10H 6S"
     assert_equal "High Card (K high)", TexasHoldEm.new(cards).best_hand
