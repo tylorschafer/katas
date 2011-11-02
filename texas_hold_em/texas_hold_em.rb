@@ -76,84 +76,84 @@ class Hand
   end
 end
 class Matcher
- #parent of matchers
- #make matchers inhert stuffs from me
-end 
-  
-class TwoOfAKindMatcher
-  BASE_RANK = 1
   def initialize(cards)
     @cards = cards
+    @base_rank = 0
+    @grouped_cards = @cards.group_by(&:value)
+  end
+end 
+  
+class TwoOfAKindMatcher < Matcher
+  def initialize(cards)
+    super(cards)
+    @base_rank = 1
   end
   def matches? 
-    grouped_cards = @cards.group_by(&:value)
-    matched_cards = grouped_cards.select{|value, cards| cards.count == 2}
+    matched_cards = @grouped_cards.select{|value, cards| cards.count == 2}
     matched_values = matched_cards.keys
     @pair_value = matched_values.sort.last
   end
   def rank
-    [BASE_RANK,@pair_value]
+    [@base_rank,@pair_value]
   end
   def to_s
     "Two of a Kind (#{Card::VALID_VALUES[@pair_value]} high)"
   end
 end
 
-class ThreeOfAKindMatcher
-  BASE_RANK = 2
+class ThreeOfAKindMatcher < Matcher
   def initialize(cards)
-    @cards = cards
+    super(cards)
+    @base_rank = 2
   end
   def matches? 
-    grouped_cards = @cards.group_by(&:value)
-    matched_cards = grouped_cards.select{|value, cards| cards.count > 2}
+    matched_cards = @grouped_cards.select{|value, cards| cards.count > 2}
     matched_values = matched_cards.keys
     @pair_value = matched_values.sort.last
   end
   def rank
-    [BASE_RANK,@pair_value]
+    [@base_rank,@pair_value]
   end
   def to_s
     "Three of a Kind (#{Card::VALID_VALUES[@pair_value]} high)"
   end
 end
 
-class FourOfAKindMatcher
-  BASE_RANK = 4
+class FourOfAKindMatcher < Matcher
   def initialize(cards)
-    @cards = cards
+    super(cards)
+    @base_rank = 4
   end
   def matches? 
-    grouped_cards = @cards.group_by(&:value)
-    matched_cards = grouped_cards.select{|value, cards| cards.count > 3}
+    matched_cards = @grouped_cards.select{|value, cards| cards.count > 3}
     matched_values = matched_cards.keys
     @pair_value = matched_values.sort.last
   end
   def rank
-    [BASE_RANK,@pair_value]
+    [@base_rank,@pair_value]
   end
   def to_s
     "Four of a Kind (#{Card::VALID_VALUES[@pair_value]} high)"
   end
 end
 
-class TwoPairMatcher
-  BASE_RANK = 3
+class TwoPairMatcher < Matcher
   def initialize(cards)
-    @cards = cards
+    super(cards)
+    @base_rank = 3
   end
   def matches? 
-    grouped_cards = @cards.group_by(&:value)
-    matched_cards = grouped_cards.select{|value, cards| cards.count == 2}
+    matched_cards = @grouped_cards.select{|value, cards| cards.count == 2}
     matched_values = matched_cards.keys
     if matched_values.count > 1  
       @pair_value = matched_values.sort.last
     end
   end
   def rank
-    [BASE_RANK,@pair_value]
+    [@base_rank,@pair_value]
   end
   def to_s
     "Two Pair (#{Card::VALID_VALUES[@pair_value]} high)"
   end
 end
+
