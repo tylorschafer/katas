@@ -19,9 +19,9 @@ When comparing two hands in the same category, cards are compared highest to low
 
 ### Code Kata
 
-This kata contains two files: `texas_hold_em.rb` and `texas_hold_em_spec.rb`.  `texas_hold_em.rb` defines a class `TexasHoldEm` with two methods: `initialize` and `best_hand`.  Your task is to impement these two methods, so that when you run:
+This kata contains two files: `texas_hold_em.rb` and `texas_hold_em_test.rb`.  `texas_hold_em.rb` defines a class `TexasHoldEm` with two methods: `initialize` and `best_hand`.  Your task is to impement these two methods, so that when you run:
 
-    ruby texas_hold_em_spec.rb
+    ruby texas_hold_em_test.rb
 
 all of the tests it contains pass.
 

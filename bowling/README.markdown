@@ -15,8 +15,8 @@ In frame 10, you can throw up to three balls.  I suggest checking out Wikipedia,
 
 ### Code Kata
 
-This kata contains two files: `bowling.rb` and `bowling_spec.rb`.  `bowling.rb` defines a class called `Bowling`, with two methods: `initialize` and `score`.  `initialize` will receive a string of bowling throws (between 11 and 21).  `score` should return the value for that game.  Your task is to implement those two methods so that when:
+This kata contains two files: `bowling.rb` and `bowling_test.rb`.  `bowling.rb` defines a class called `Bowling`, with two methods: `initialize` and `score`.  `initialize` will receive a string of bowling throws (between 11 and 21).  `score` should return the value for that game.  Your task is to implement those two methods so that when:
 
-    ruby bowling_spec.rb
+    ruby bowling_test.rb
 
 is run, all of the tests it contains pass.

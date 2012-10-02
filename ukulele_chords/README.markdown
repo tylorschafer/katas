@@ -10,9 +10,9 @@ The purpose of this task is to determine where on the fretboard the fingers must
 
 ### Code Kata
 
-This kata contains two files: `ukulele_chords.rb` and `ukulele_chords_spec.rb`.  `ukulele_chords.rb` defines a class, `Ukulele`, which contains one method: `fingerings`.  Your task is to implement this method, so that when you run:
+This kata contains two files: `ukulele_chords.rb` and `ukulele_chords_test.rb`.  `ukulele_chords.rb` defines a class, `Ukulele`, which contains one method: `fingerings`.  Your task is to implement this method, so that when you run:
 
-    ruby ukulele_chords_spec.rb
+    ruby ukulele_chords_test.rb
 
 all of the tests it contains pass.
 
