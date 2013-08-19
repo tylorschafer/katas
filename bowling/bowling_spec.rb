@@ -39,6 +39,12 @@ class BowlingTest < Test::Unit::TestCase
     end
   end
 
+  def test_double_spares_throws_an_exception
+    assert_raise(Bowling::SpareTooEarly, "Should not allow a frame with two spares") do
+      Bowling.new("//" + "-" * 18)
+    end
+  end
+
   ######################
   #                    #
   # Tenth Frame Issues #
@@ -57,11 +63,12 @@ class BowlingTest < Test::Unit::TestCase
     'X99' => Bowling::TooManyPins
   }
   
-  def test_odd_tenth_frame_issues
-    BAD_TENTH_FRAMES.each do |frame, error|
+  BAD_TENTH_FRAMES.each do |frame, error|
+    define_method "test_bad_tenth_frame_#{ frame }" do
       assert_raise(error) { Bowling.new('-' * 18 + frame) }
     end
   end
+
 
   GOOD_TENTH_FRAMES = %w( 44 9/9 4/X X44 X4/ XX4 XXX )
   
